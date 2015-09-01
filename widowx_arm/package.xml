@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <name>widowx_arm</name>
+  <version>0.0.0</version>
+  <description>The widowx_arm package</description>
+
+ 
+  <maintainer email="rnavarro@robotnik.es">Román Navarro</maintainer>
+
+  <license>BSD</license>
+
+
+  <!-- Url tags are optional, but mutiple are allowed, one per tag -->
+  <!-- Optional attribute type can be: website, bugtracker, or repository -->
+  <!-- Example: -->
+  <!-- <url type="website">http://wiki.ros.org/widowx_arm</url> -->
+
+
+  <!-- Author tags are optional, mutiple are allowed, one per tag -->
+  <!-- Authors do not have to be maintianers, but could be -->
+  <!-- Example: -->
+  <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>widowx_arm_controller</run_depend>
+  <run_depend>widowx_arm_description</run_depend>
+
+  <export><metapackage/></export>
+
+</package>

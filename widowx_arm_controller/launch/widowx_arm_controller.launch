@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="widowx_arm_arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+    <rosparam file="$(find widowx_arm_controller)/config/arbotix.yaml" command="load" />
+  </node>
+</launch>
