@@ -136,7 +136,7 @@
       </link>
       <link name="${prefix}gripper_rail_link">
          <visual>
-            <origin xyz="0 0 ${M_SCALE*43}" rpy="0 0 1.57" />
+            <origin xyz="0 0 0" rpy="0 0 1.57" />
             <geometry>
                <mesh filename="package://widowx_arm_description/meshes/gripper_rail_link.stl"/>
             </geometry>
@@ -156,7 +156,7 @@
       </link>
       <link name="${prefix}gripper_1_link">
          <visual>
-            <origin xyz="0 0 0" rpy="0 0 1.57" />
+            <origin xyz="0 -0.0007 0" rpy="0 0 1.57" />
             <geometry>
                <mesh filename="package://widowx_arm_description/meshes/gripper_hand_fixed_link.stl"/>
             </geometry>
@@ -176,7 +176,7 @@
       </link>
       <link name="${prefix}gripper_2_link">
          <visual>
-            <origin xyz="0 0 0" rpy="0 0 -1.57" />
+            <origin xyz="0 0.0007 0" rpy="0 0 -1.57" />
             <geometry>
                <mesh filename="package://widowx_arm_description/meshes/gripper_hand_fixed_link.stl"/>
             </geometry>
@@ -238,25 +238,26 @@
          <limit lower="-2.617" upper="2.617" effort="0" velocity="1.571" />
       </joint>
       <joint name="${prefix}joint_6" type="fixed">
-         <origin xyz = "0 0 0" rpy="0 0 0" />
+         <origin xyz = "0 0 ${M_SCALE*43}" rpy="0 0 0" />
          <parent link="${prefix}wrist_2_link" />
          <child link="${prefix}gripper_rail_link" />
          <axis xyz="0 0 1" />
          <limit lower="-0.31" upper="0.1" effort="0" velocity="0.5" />
       </joint>
-      <joint name="${prefix}joint_7" type="fixed">
-         <origin xyz="0 0 ${M_SCALE*45}" rpy="0 0 0" />
+      <joint name="${prefix}joint_7" type="prismatic">
+         <origin xyz="0 0 0" rpy="0 0 0" />
          <parent link="${prefix}gripper_rail_link" />
          <child link="${prefix}gripper_1_link" />
-         <axis xyz="0 0 1" />
-         <limit lower="-0.31" upper="0.1" effort="0" velocity="0.5" />
+         <axis xyz="0 -1 0" />
+         <limit lower="0" upper="0.027" effort="0" velocity="0.5" />
       </joint>
-      <joint name="${prefix}joint_8" type="fixed">
-         <origin xyz="0 0 ${M_SCALE*45}" rpy="0 0 0" />
+      <joint name="${prefix}joint_8" type="prismatic">
+         <origin xyz="0 0 0" rpy="0 0 0" />
          <parent link="${prefix}gripper_rail_link" />
          <child link="${prefix}gripper_2_link" />
-         <axis xyz="0 0 1" />
-         <limit lower="-0.31" upper="0.1" effort="0" velocity="0.5" />
+         <mimic joint="${prefix}joint_7" />
+         <axis xyz="0 1 0" />
+         <limit lower="0" upper="0.027" effort="0" velocity="0.5" />
       </joint>
    </xacro:macro>
 
