@@ -306,13 +306,13 @@
     </actuator>
   </transmission>
 
- <!--transmission name="tran6">
+ <transmission name="tran6">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_7"/>
     <actuator name="motor6">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-  </transmission-->
+  </transmission>
 
 </robot>
