@@ -1,6 +1,6 @@
 port: /dev/ttyUSB0
-read_rate: 30
-write_rate: 30
+read_rate: 15
+write_rate: 25
 joints: {
     arm_1_joint: {id: 1, ticks: 4096, range: 360.0, max_speed: 100.0},
     arm_2_joint: {id: 2, ticks: 4096, range: 360.0, min_angle: -90.0, max_angle: 90.0, max_speed: 100.0},
