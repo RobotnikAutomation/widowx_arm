@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>widowx_arm_description</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>The widowx_arm_description package</description>
 
   <maintainer email="jmrapado@robotnik.es">Jose Rapado García</maintainer>
