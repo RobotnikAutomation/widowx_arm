@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>widowx_arm_controller</name>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <description>The widowx_arm_controller package</description>
 
   <maintainer email="rnavarro@robotnik.es">Román Navarro</maintainer>

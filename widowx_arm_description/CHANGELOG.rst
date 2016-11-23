@@ -2,8 +2,8 @@
 Changelog for package widowx_arm_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.2 (2016-11-23)
+------------------
 * modified cmakelists and package.xml
 * DEL: urdf and xacro files
 * MOD: changed launch
