@@ -43,41 +43,24 @@ from sensor_msgs.msg import JointState
 
 
 
-class PhantomXReactor:
+class WidowxGripper:
 	"""
 		Class to communicate with the dinamyxel controllers of the arm
 	"""	
 	def __init__(self):
 		
+		self.distance = 0.0;
+		
 		try:
-			self.name = rospy.get_param('~name', default = 'phantomx_reactor')
-			self.j1 = rospy.get_param('~j1', default = 'j1')
-			self.j2 = rospy.get_param('~j2', default = 'j2')
-			self.j3 = rospy.get_param('~j3', default = 'j3')
-			self.j4 = rospy.get_param('~j4', default = 'j4')
-			self.j5 = rospy.get_param('~j5', default = 'j5')
-			self.j6 = rospy.get_param('~j6', default = 'gripper')
-			self.controller_1 = rospy.get_param('~controller_1', default = '/arm_1_joint/command')
-			self.controller_2 = rospy.get_param('~controller_2', default = '/arm_2_joint/command')
-			self.controller_3 = rospy.get_param('~controller_3', default = '/arm_2_1_joint/command')
-			self.controller_4 = rospy.get_param('~controller_4', default = '/arm_3_joint/command')
-			self.controller_5 = rospy.get_param('~controller_5', default = '/arm_3_1_joint/command')
-			self.controller_6 = rospy.get_param('~controller_6', default = '/arm_4_joint/command')
-			self.controller_7 = rospy.get_param('~controller_7', default = '/arm_5_jointr/command') # optional
-			self.controller_8 = rospy.get_param('~controller_8', default = '/arm_gripper_joint/command')
+			self.name = rospy.get_param('~name', default = 'widowx')
+			self.controller = rospy.get_param('~controller', default = '/gripper_revolute_joint/command')
+			self.joint_name = rospy.get_param('~joint_name', default = 'gripper_prismatic_joint_1')
 			
-			# j2 has to controllers syncronized (2,3)
-			# j3 has to controllers syncronized (4,5)
-			self.controller_1_publisher = rospy.Publisher(self.controller_1, Float64, queue_size = 10)
-			self.controller_2_publisher = rospy.Publisher(self.controller_2, Float64, queue_size = 10)
-			self.controller_3_publisher = rospy.Publisher(self.controller_3, Float64, queue_size = 10)
-			self.controller_4_publisher = rospy.Publisher(self.controller_4, Float64, queue_size = 10)
-			self.controller_5_publisher = rospy.Publisher(self.controller_5, Float64, queue_size = 10)
-			self.controller_6_publisher = rospy.Publisher(self.controller_6, Float64, queue_size = 10)
-			self.controller_7_publisher = rospy.Publisher(self.controller_7, Float64, queue_size = 10)
-			self.controller_8_publisher = rospy.Publisher(self.controller_8, Float64, queue_size = 10)
+			self.gripper_revolute_joint_state_subscriber = rospy.Subscriber('/joint_states', JointState, self.jointStateCb)
+			self.gripper_prismatic_joint_subscriber = rospy.Subscriber('/gripper_prismatic_joint/command', Float64, self.gripperPrismaticJointCommandCb)
+			self.gripper_prismatic_joint_state_publisher = rospy.Publisher('/joint_states', JointState, queue_size=10)
+			self.gripper_revolute_joint_publisher = rospy.Publisher(self.controller, Float64, queue_size=10)
 			
-			self.joint_command = rospy.Subscriber('~joint_command', JointState, self.jointCommandCb)
 			
 			self.desired_freq = rospy.get_param('~desired_freq', default = 10.0)
 			
@@ -85,54 +68,53 @@ class PhantomXReactor:
 			rospy.logerr('%s: error getting params %s'%(rospy.get_name(), e))
 			exit()
 
+	def jointStateCb(self, msg):
 		
+		 if 'gripper_revolute_joint' in msg.name:
+			index = msg.name.index('gripper_revolute_joint')
+			position = msg.position[index]
+			velocity = msg.velocity[index]
+						
+			self.distance = (-0.01154 * position) + 0.03
 	
-	def jointCommandCb(self, msg):
+	def gripperPrismaticJointCommandCb(self, msg):
 		"""
 			Receives joint command and send it to the controller
 		"""
-		if len(msg.name) != len(msg.position):
-			rospy.logerr('%s:jointCommandCb: length of joint names and position has to be equal'%(rospy.get_name()))
-			return 
-		for i in range(len(msg.name)):
-			#print 'Joint %s to %lf'%(msg.name[i], msg.position[i])
-			self.setJointPosition(msg.name[i], msg.position[i])
+		#rospy.loginfo('%s: info getting params'%rospy.get_name())
 		
+		gripper_goal = Float64()
+		
+		if(msg.data >= 0 and msg.data <= 0.03):
+			self.distance = msg.data;
+			rad = (-86.67 * self.distance) + 2.6
+			gripper_goal.data = rad
+			self.gripper_revolute_joint_publisher.publish(gripper_goal)
 
+		
 	def controlLoop(self):
 		"""
 			Runs the control loop
 		"""
+		joint_state_gripper = JointState()
+		
+		joint_state_gripper.header = Header()
+		joint_state_gripper.header.stamp = rospy.Time.now()
+		joint_state_gripper.name = [self.joint_name]
+		joint_state_gripper.position = [self.distance]
+		joint_state_gripper.velocity = [0.0]
+		joint_state_gripper.effort = [0.0]
+		
+		self.gripper_prismatic_joint_state_publisher.publish(joint_state_gripper)
+		
 		t_sleep = 1.0/self.desired_freq
 		
 		while not rospy.is_shutdown():
+			joint_state_gripper.header.stamp = rospy.Time.now()
+			joint_state_gripper.position = [self.distance]
+			
+			self.gripper_prismatic_joint_state_publisher.publish(joint_state_gripper)
 			rospy.sleep(t_sleep)
-				
-	
-	def setJointPosition(self, joint, position):
-		"""
-			Sends the command to the controller to set the desired joint position
-		"""	
-		msg = Float64()
-		msg.data = position
-		
-		if joint == self.j1:
-			self.controller_1_publisher.publish(msg)
-		elif joint == self.j2:
-			self.controller_2_publisher.publish(msg)
-			msg.data = -position
-			self.controller_3_publisher.publish(msg)
-		elif joint == self.j3:
-			self.controller_4_publisher.publish(msg)
-			msg.data = -position
-			self.controller_5_publisher.publish(msg)
-		elif joint == self.j4:
-			self.controller_6_publisher.publish(msg)
-		elif joint == self.j5:
-			self.controller_7_publisher.publish(msg)
-		elif joint == self.j6:
-			self.controller_8_publisher.publish(msg)
-		
 			
 	def start(self):
 		"""
@@ -143,17 +125,14 @@ class PhantomXReactor:
 		except rospy.ROSInterruptException:
 			rospy.loginfo('%s: Bye!'%rospy.get_name())
 
-
 def main():
 
-	rospy.init_node('robotnik_phantomx_reactor')
+	rospy.init_node('widowx_gripper_node')
 		
-	phantomx_reactor_node = PhantomXReactor()
+	widowx_node = WidowxGripper()
 	
-
-	phantomx_reactor_node.start()
+	widowx_node.start()
 	
-
 	
 if __name__=='__main__':
 	main()

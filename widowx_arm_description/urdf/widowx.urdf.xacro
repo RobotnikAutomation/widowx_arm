@@ -155,6 +155,8 @@
             <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
          </inertial>
       </link>
+      <link name="${prefix}gripper_aux_link">
+      </link>
       <link name="${prefix}gripper_1_link">
          <visual>
             <origin xyz="0 -0.0007 0" rpy="0 0 1.57" />
@@ -244,19 +246,26 @@
          <axis xyz="0 0 1" />
          <limit lower="-0.31" upper="0.1" effort="0" velocity="0.5" />
       </joint>
-      <joint name="${prefix}joint_7" type="prismatic">
+      <joint name="${prefix}gripper_revolute_joint" type="revolute">
+         <origin xyz = "0 0 0" rpy="0 0 0" />
+         <parent link="${prefix}gripper_rail_link" />
+         <child link="${prefix}gripper_aux_link" />
+         <axis xyz="0 0 1" />
+         <limit lower="0" upper="2.6" effort="0" velocity="0.5" />
+      </joint>
+      <joint name="${prefix}gripper_prismatic_joint_1" type="prismatic">
          <origin xyz="0 0 0" rpy="0 0 0" />
          <parent link="${prefix}gripper_rail_link" />
          <child link="${prefix}gripper_1_link" />
-         <axis xyz="0 1 0" />
+         <axis xyz="0 -1 0" />
          <limit lower="0" upper="0.027" effort="0" velocity="0.5" />
       </joint>
-      <joint name="${prefix}joint_8" type="prismatic">
+      <joint name="${prefix}gripper_prismatic_joint_2" type="prismatic">
          <origin xyz="0 0 0" rpy="0 0 0" />
          <parent link="${prefix}gripper_rail_link" />
          <child link="${prefix}gripper_2_link" />
-         <mimic joint="${prefix}joint_7" />
-         <axis xyz="0 -1 0" />
+         <mimic joint="${prefix}gripper_prismatic_joint_1" />
+         <axis xyz="0 1 0" />
          <limit lower="0" upper="0.027" effort="0" velocity="0.5" />
       </joint>
    </xacro:macro>
@@ -308,7 +317,7 @@
 
  <transmission name="tran6">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_7"/>
+    <joint name="gripper_prismatic_joint_1"/>
     <actuator name="motor6">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>

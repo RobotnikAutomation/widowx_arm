@@ -3,4 +3,5 @@
   <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
     <rosparam file="$(find widowx_arm_controller)/config/arm.yaml" command="load" />
   </node>
+  <node name="gripper_controller" pkg="widowx_arm_controller" type="widowx_gripper.py" output="screen"/>
 </launch>
