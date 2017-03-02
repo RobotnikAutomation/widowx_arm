@@ -248,7 +248,7 @@
          <origin xyz="0 0 0" rpy="0 0 0" />
          <parent link="${prefix}gripper_rail_link" />
          <child link="${prefix}gripper_1_link" />
-         <axis xyz="0 -1 0" />
+         <axis xyz="0 1 0" />
          <limit lower="0" upper="0.027" effort="0" velocity="0.5" />
       </joint>
       <joint name="${prefix}joint_8" type="prismatic">
@@ -256,7 +256,7 @@
          <parent link="${prefix}gripper_rail_link" />
          <child link="${prefix}gripper_2_link" />
          <mimic joint="${prefix}joint_7" />
-         <axis xyz="0 1 0" />
+         <axis xyz="0 -1 0" />
          <limit lower="0" upper="0.027" effort="0" velocity="0.5" />
       </joint>
    </xacro:macro>
