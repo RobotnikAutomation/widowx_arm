@@ -1,14 +1,14 @@
-port: /dev/ttyUSB0
+port: /dev/ttyUSB1
 read_rate: 15
 write_rate: 25
 joints: {
-    arm_1_joint: {id: 1, ticks: 4096, range: 360.0, max_speed: 100.0},
-    arm_2_joint: {id: 2, ticks: 4096, range: 360.0, min_angle: -90.0, max_angle: 90.0, max_speed: 100.0},
-    arm_3_joint: {id: 3, ticks: 4096, range: 360.0, max_speed: 100.0},
-    arm_4_joint: {id: 4, ticks: 4096, range: 360.0, min_angle: -90.0, max_angle: 90.0, max_speed: 100.0},
-    arm_5_joint: {id: 5, ticks: 1024, range: 300.0, max_speed: 100.0},
-    gripper_1_joint: {id: 6, ticks: 1024, range: 300.0, max_speed: 100.0},
+    joint_1: {id: 1, ticks: 4096, range: 360.0, max_speed: 100.0},
+    joint_2: {id: 2, ticks: 4096, range: 360.0, min_angle: -90.0, max_angle: 90.0, max_speed: 100.0},
+    joint_3: {id: 3, ticks: 4096, range: 360.0, max_speed: 100.0, invert: true},
+    joint_4: {id: 4, ticks: 4096, range: 360.0, min_angle: -90.0, max_angle: 90.0, max_speed: 100.0, invert: true},
+    joint_5: {id: 5, ticks: 1024, range: 300.0, max_speed: 100.0, min_angle: -150.0, max_angle: 150.0},
+    joint_7: {id: 6, ticks: 1024, range: 300.0, max_speed: 100.0, invert: true},
 }
 controllers: {
-    arm_controller: {type: follow_controller, joints: [arm_1_joint, arm_2_joint, arm_3_joint, arm_4_joint, arm_5_joint, gripper_1_joint]},
+    arm_controller: {type: follow_controller, joints: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_7]},
 }

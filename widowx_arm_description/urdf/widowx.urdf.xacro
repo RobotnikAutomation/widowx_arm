@@ -214,14 +214,14 @@
          <parent link="${prefix}shoulder_link" />
          <child link="${prefix}biceps_link" />
          <axis xyz="0 1 0" />
-         <limit lower="-1.575" upper="1.575" effort="0" velocity="1.571" />
+         <limit lower="-1.571" upper="1.571" effort="0" velocity="1.571" />
       </joint>
       <joint name="${prefix}joint_3" type="revolute">
-         <origin xyz="${M_SCALE*48.25} 0 ${M_SCALE*142.03}" rpy="0 0 0" />
+         <origin xyz="${M_SCALE*48.25} 0 ${M_SCALE*142.03}" rpy="0 ${M_PI/2.0} 0" />
          <parent link="${prefix}biceps_link" />
          <child link="${prefix}forearm_link" />
          <axis xyz="0 1 0" />
-         <limit lower="0" upper="2.617" effort="0" velocity="1.571" />
+         <limit lower="-1.571" upper="1.571" effort="0" velocity="1.571" />
       </joint>
       <joint name="${prefix}joint_4" type="revolute">
          <origin xyz="0 0 ${M_SCALE*142.03}" rpy="0 0 0" />
