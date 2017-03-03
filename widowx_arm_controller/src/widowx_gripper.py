@@ -53,13 +53,14 @@ class WidowxGripper:
 		
 		try:
 			self.name = rospy.get_param('~name', default = 'widowx')
-			self.controller = rospy.get_param('~controller', default = '/gripper_revolute_joint/command')
+			self.revolute_command = rospy.get_param('~revolute_command', default = '/gripper_revolute_joint/command')
 			self.joint_name = rospy.get_param('~joint_name', default = 'gripper_prismatic_joint_1')
+			self.prismatic_command = rospy.get_param('~prismatic_command', default = '/gripper_prismatic_joint/command')
 			
 			self.gripper_revolute_joint_state_subscriber = rospy.Subscriber('/joint_states', JointState, self.jointStateCb)
-			self.gripper_prismatic_joint_subscriber = rospy.Subscriber('/gripper_prismatic_joint/command', Float64, self.gripperPrismaticJointCommandCb)
+			self.gripper_prismatic_joint_subscriber = rospy.Subscriber(self.prismatic_command, Float64, self.gripperPrismaticJointCommandCb)
 			self.gripper_prismatic_joint_state_publisher = rospy.Publisher('/joint_states', JointState, queue_size=10)
-			self.gripper_revolute_joint_publisher = rospy.Publisher(self.controller, Float64, queue_size=10)
+			self.gripper_revolute_joint_publisher = rospy.Publisher(self.revolute_command, Float64, queue_size=10)
 			
 			
 			self.desired_freq = rospy.get_param('~desired_freq', default = 10.0)
