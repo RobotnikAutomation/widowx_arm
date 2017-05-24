@@ -34,7 +34,7 @@
 	EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import roslib; roslib.load_manifest('phantomx_reactor_arm_controller')
+import roslib; roslib.load_manifest('widowx_arm_controller')
 import rospy
 import actionlib
 from control_msgs.msg import *
