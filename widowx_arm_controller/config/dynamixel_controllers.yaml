@@ -1,0 +1,83 @@
+joints: ['joint_1','joint_2', 'joint_3', 'joint_4', 'joint_5']
+joint_1:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: joint_1
+  joint_speed: 1.0
+  motor:
+    id: 1
+    init: 2048
+    min: 0
+    max: 4096
+joint_2:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: joint_2
+  joint_speed: 1.0
+  motor:
+    id: 2
+    init: 2048
+    min: 0
+    max: 4096
+joint_3:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: joint_3
+  joint_speed: 0.5
+  motor:
+    id: 3
+    init: 2048
+    min: 4096
+    max: 0
+joint_4:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: joint_4
+  joint_speed: 1.0
+  motor:
+    id: 4
+    init: 2048
+    min: 4096
+    max: 0
+joint_5:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: joint_5
+  joint_speed: 1.0
+  motor:
+    id: 5
+    init: 512
+    min: 0
+    max: 1024
+gripper_revolute_joint:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: gripper_revolute_joint
+  joint_speed: 1.0
+  motor:
+    id: 6
+    init: 512
+    min: 0
+    max: 1024
+
+arm_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_trajectory_action_controller
+    type: JointTrajectoryActionController
+  joint_trajectory_action_node: 
+    min_velocity: 0.1
+    constraints:
+         goal_time: 0.1

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<launch>
+    
+
+    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="screen">
+        
+        
+        <rosparam file="$(find widowx_arm_controller)/config/dynamixel_manager.yaml" command="load" />
+    </node>
+
+    <!-- Load controller configuration to parameter server -->
+    
+    <rosparam file="$(find widowx_arm_controller)/config/dynamixel_controllers.yaml" command="load" />
+    
+    <!-- start specified joint controllers -->
+    
+    <node name="dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+          --port=arbotix_port
+          --type=simple
+          joint_1
+          joint_2
+          joint_3
+          joint_4
+          joint_5
+          "
+          output="screen"/>
+    <node name="dynamixel_controller_spawner2" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+          --type=meta
+          arm_controller
+          joint_1
+          joint_2
+          joint_3
+          joint_4
+          joint_5
+          "
+          output="screen"/>
+
+
+	<!-- Start the Dynamixel Joint States Publisher -->
+
+	<node name="dynamixel_joint_states_publisher" pkg="widowx_arm_controller" type="dynamixel_joint_state_publisher.py" output="screen" >
+		<param name="rate" value="15"/>
+	</node>
+        
+	<!-- Start the node to publish and command the parallel gripper -->
+<!--
+	<node name="phantomx_reactor_parallel_gripper" pkg="phantomx_reactor_arm_controller" type="phantomx_reactor_gripper.py" output="screen" >
+		<param name="rate" value="15"/>
+	</node>
+--> 
+</launch>
+

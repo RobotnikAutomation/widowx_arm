@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: widowx_arm_description
+    relative_path: robots/widowx_arm.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/widowx_arm.srdf
+  CONFIG:
+    author_name: Juan Manuel Navarrete Carrascosa
+    author_email: jmnavarrete@robotnik.es
+    generated_timestamp: 1554392035
