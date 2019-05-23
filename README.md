@@ -2,7 +2,7 @@
 
 This ROS package is intended to work with the [WidowX](https://www.roscomponents.com/en/robotic-arms/11-widowx.html#/assembled-no) arm.
 
-* widowx_arm_controller : Controller based on arbotix_python driver to control de arm
+* widowx_arm_controller : Controller based on arbotix_python driver to control the arm
 * widowx_arm_description : Description of the arm
 
 ## Installation and configuration
