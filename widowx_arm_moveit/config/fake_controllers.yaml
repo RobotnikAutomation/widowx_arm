@@ -6,3 +6,7 @@ controller_list:
       - joint_3
       - joint_4
       - joint_5
+  - name: fake_gripper_controller
+    joints:
+      - gripper_prismatic_joint_1
+      - gripper_revolute_joint

@@ -12,6 +12,11 @@
     <group name="widowx">
         <chain base_link="arm_base_link" tip_link="wrist_2_link" />
     </group>
+    <group name="gripper">
+        <joint name="gripper_prismatic_joint_1" />
+        <joint name="gripper_prismatic_joint_2" />
+        <joint name="gripper_revolute_joint" />
+    </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="retract" group="widowx">
         <joint name="joint_1" value="0" />
@@ -51,7 +56,19 @@
     <disable_collisions link1="base_footprint" link2="shoulder_link" reason="Never" />
     <disable_collisions link1="biceps_link" link2="forearm_link" reason="Adjacent" />
     <disable_collisions link1="biceps_link" link2="shoulder_link" reason="Adjacent" />
+    <disable_collisions link1="forearm_link" link2="gripper_1_link" reason="Never" />
+    <disable_collisions link1="forearm_link" link2="gripper_2_link" reason="Never" />
+    <disable_collisions link1="forearm_link" link2="gripper_rail_link" reason="Never" />
     <disable_collisions link1="forearm_link" link2="wrist_1_link" reason="Adjacent" />
     <disable_collisions link1="forearm_link" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="gripper_1_link" link2="gripper_2_link" reason="Default" />
+    <disable_collisions link1="gripper_1_link" link2="gripper_rail_link" reason="Adjacent" />
+    <disable_collisions link1="gripper_1_link" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="gripper_1_link" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="gripper_2_link" link2="gripper_rail_link" reason="Adjacent" />
+    <disable_collisions link1="gripper_2_link" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="gripper_2_link" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="gripper_rail_link" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="gripper_rail_link" link2="wrist_2_link" reason="Adjacent" />
     <disable_collisions link1="wrist_1_link" link2="wrist_2_link" reason="Adjacent" />
 </robot>
