@@ -2,7 +2,7 @@ namespace: dxl_manager
 serial_ports:
   arbotix_port:
     port_name: "/dev/ttyUSB_WIDOWX"
-    baud_rate: 57600
+    baud_rate: 1000000
     min_motor_id: 1
     max_motor_id: 6
     update_rate: 15
