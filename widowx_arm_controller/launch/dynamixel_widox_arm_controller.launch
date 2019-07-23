@@ -23,6 +23,7 @@
           joint_3
           joint_4
           joint_5
+          gripper_revolute_joint
           "
           output="screen"/>
     <node name="dynamixel_controller_spawner2" pkg="dynamixel_controllers" type="controller_spawner.py"
@@ -45,10 +46,8 @@
 	</node>
         
 	<!-- Start the node to publish and command the parallel gripper -->
-<!--
-	<node name="phantomx_reactor_parallel_gripper" pkg="phantomx_reactor_arm_controller" type="phantomx_reactor_gripper.py" output="screen" >
-		<param name="rate" value="15"/>
+	<node name="gripper_controller" pkg="widowx_arm_controller" type="widowx_gripper.py" output="screen">
+		<param name="reverse_revolution" value="true"/>
 	</node>
---> 
 </launch>
 

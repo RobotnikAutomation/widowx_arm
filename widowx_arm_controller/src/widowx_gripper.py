@@ -56,6 +56,14 @@ class WidowxGripper:
 			self.revolute_command = rospy.get_param('~revolute_command', default = '/gripper_revolute_joint/command')
 			self.joint_name = rospy.get_param('~joint_name', default = 'gripper_prismatic_joint_1')
 			self.prismatic_command = rospy.get_param('~prismatic_command', default = '/gripper_prismatic_joint/command')
+			self.reverse_revolution = rospy.get_param('~reverse_revolution', default = False)
+			self.linear_k_a = -86.67
+			self.linear_k_b = 2.6
+			
+			if self.reverse_revolution:
+				self.revolution_direction = -1
+			else:
+				self.revolution_direction = 1
 			
 			self.gripper_revolute_joint_state_subscriber = rospy.Subscriber('/joint_states', JointState, self.jointStateCb)
 			self.gripper_prismatic_joint_subscriber = rospy.Subscriber(self.prismatic_command, Float64, self.gripperPrismaticJointCommandCb)
@@ -76,8 +84,11 @@ class WidowxGripper:
 			position = msg.position[index]
 			velocity = msg.velocity[index]
 						
-			self.distance = (-0.01154 * position) + 0.03
-	
+			#self.distance = (-0.01154 * position) + 0.03
+			self.distance =  self.convertAngleToDistance(self.revolution_direction * position)
+			#rospy.loginfo_throttle(1, '%s:jointStateCb: angle = %.3lf, distance = %.3lf'%(rospy.get_name(), position, self.distance))
+			
+			
 	def gripperPrismaticJointCommandCb(self, msg):
 		"""
 			Receives joint command and send it to the controller
@@ -85,14 +96,21 @@ class WidowxGripper:
 		#rospy.loginfo('%s: info getting params'%rospy.get_name())
 		
 		gripper_goal = Float64()
+		target_distance = 0.0
 		
 		if(msg.data >= 0 and msg.data <= 0.03):
-			self.distance = msg.data;
-			rad = (-86.67 * self.distance) + 2.6
-			gripper_goal.data = rad
-			self.gripper_revolute_joint_publisher.publish(gripper_goal)
-
-		
+			
+			target_distance = msg.data
+		elif msg.data < 0:
+			target_distance = 0
+		else:
+			target_distance = 0.03
+			
+		rad = self.convertDistanceToAngle(target_distance)
+		gripper_goal.data = self.revolution_direction * rad
+		self.gripper_revolute_joint_publisher.publish(gripper_goal)
+		#rospy.loginfo_throttle(1, '%s:gripperPrismaticJointCommandCb: angle = %.3lf'%(rospy.get_name(), gripper_goal.data))
+			
 	def controlLoop(self):
 		"""
 			Runs the control loop
@@ -125,6 +143,12 @@ class WidowxGripper:
 			self.controlLoop()
 		except rospy.ROSInterruptException:
 			rospy.loginfo('%s: Bye!'%rospy.get_name())
+			
+	def convertDistanceToAngle(self, distance):
+		return self.linear_k_a * distance + self.linear_k_b
+
+	def convertAngleToDistance(self, angle):
+		return (angle - self.linear_k_b)/self.linear_k_a
 
 def main():
 

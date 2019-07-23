@@ -1,11 +1,11 @@
-joints: ['joint_1','joint_2', 'joint_3', 'joint_4', 'joint_5']
+joints: ['joint_1','joint_2', 'joint_3', 'joint_4', 'joint_5', 'gripper_revolute_joint']
 joint_1:
   controller:
     package: dynamixel_controllers
     module: joint_position_controller
     type: JointPositionController
   joint_name: joint_1
-  joint_speed: 1.0
+  joint_speed: 0.5
   motor:
     id: 1
     init: 2048
@@ -17,7 +17,7 @@ joint_2:
     module: joint_position_controller
     type: JointPositionController
   joint_name: joint_2
-  joint_speed: 1.0
+  joint_speed: 0.5
   motor:
     id: 2
     init: 2048
@@ -41,7 +41,7 @@ joint_4:
     module: joint_position_controller
     type: JointPositionController
   joint_name: joint_4
-  joint_speed: 1.0
+  joint_speed: 0.5
   motor:
     id: 4
     init: 2048
@@ -53,7 +53,7 @@ joint_5:
     module: joint_position_controller
     type: JointPositionController
   joint_name: joint_5
-  joint_speed: 1.0
+  joint_speed: 1
   motor:
     id: 5
     init: 512
