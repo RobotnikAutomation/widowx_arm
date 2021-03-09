@@ -1,0 +1,35 @@
+digraph G {
+node [shape=box];
+"base_footprint" [label="base_footprint"];
+"arm_base_link" [label="arm_base_link"];
+"shoulder_link" [label="shoulder_link"];
+"biceps_link" [label="biceps_link"];
+"forearm_link" [label="forearm_link"];
+"wrist_1_link" [label="wrist_1_link"];
+"wrist_2_link" [label="wrist_2_link"];
+"gripper_rail_link" [label="gripper_rail_link"];
+"gripper_1_link" [label="gripper_1_link"];
+"gripper_2_link" [label="gripper_2_link"];
+"gripper_aux_link" [label="gripper_aux_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_footprint" -> "arm_base_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"arm_base_joint" -> "arm_base_link"
+"arm_base_link" -> "joint_1" [label="xyz: 0 0 0.125 \nrpy: 0 -0 0"]
+"joint_1" -> "shoulder_link"
+"shoulder_link" -> "joint_2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"joint_2" -> "biceps_link"
+"biceps_link" -> "joint_3" [label="xyz: 0.048 0 0.14203 \nrpy: 0 1.5708 -0"]
+"joint_3" -> "forearm_link"
+"forearm_link" -> "joint_4" [label="xyz: 0 0 0.14203 \nrpy: 0 -0 0"]
+"joint_4" -> "wrist_1_link"
+"wrist_1_link" -> "joint_5" [label="xyz: 0 0 0.0715 \nrpy: 0 -0 0"]
+"joint_5" -> "wrist_2_link"
+"wrist_2_link" -> "joint_6" [label="xyz: 0 0 0.043 \nrpy: 0 -0 0"]
+"joint_6" -> "gripper_rail_link"
+"gripper_rail_link" -> "gripper_prismatic_joint_1" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"gripper_prismatic_joint_1" -> "gripper_1_link"
+"gripper_rail_link" -> "gripper_prismatic_joint_2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"gripper_prismatic_joint_2" -> "gripper_2_link"
+"gripper_rail_link" -> "gripper_revolute_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"gripper_revolute_joint" -> "gripper_aux_link"
+}
